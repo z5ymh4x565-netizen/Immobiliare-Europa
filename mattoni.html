@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mattoni antichi - Materiali antichi per restauri autentici</title>
+  <meta name="description" content="Mattoni antichi di recupero, selezionati per murature a vista, archi, volte e facciate in stile tradizionale.">
+
+  <style>
+    /* ========== BASE ========== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f5f1eb;
+      color: #222;
+      line-height: 1.4;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ========== HEADER / TOPBAR ========== */
+    header {
+      width: 100%;
+      z-index: 50;
+      background: rgba(250,245,240,0.96);
+      border-bottom: 1px solid #e3d7c7;
+    }
+
+    .topbar-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 10px 16px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .topbar-row {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .logo-img {
+      height: 80px;
+      width: auto;
+    }
+
+    nav {
+      width: auto;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #3b3025;
+      font-size: 0.9rem;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .lang-switcher {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+    }
+
+    .lang-switcher label {
+      color: #6b5b4b;
+    }
+
+    .lang-switcher select {
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid #c9b9a5;
+      background: #fdf6ec;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    /* ========== SIDEBAR CATEGORIE ========== */
+    #menu-toggle {
+      position: fixed;
+      left: 16px;
+      bottom: 16px;
+      z-index: 60;
+      border-radius: 999px;
+      border: none;
+      background: #3b3025;
+      color: #fdf6ec;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+    }
+
+    #menu-toggle:focus-visible {
+      outline: 2px solid #f5b26b;
+      outline-offset: 2px;
+    }
+
+    #sidebar {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background: #fdf7f0;
+      border-right: 1px solid #e3d7c7;
+      overflow: hidden;
+      transition: width .3s ease, opacity .25s ease;
+      opacity: 0;
+      z-index: 100;
+      padding-top: 60px;
+    }
+
+    #sidebar.open {
+      width: 240px;
+      opacity: 1;
+    }
+
+    #sidebar h3 {
+      margin: 0 0 8px 18px;
+      font-size: 0.8rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #8b7a6b;
+    }
+
+    #sidebar a {
+      display: block;
+      padding: 10px 18px;
+      text-decoration: none;
+      color: #3b3025;
+      font-size: 0.9rem;
+    }
+
+    #sidebar a:hover {
+      background: #efe3d5;
+    }
+
+    #overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.25);
+      opacity: 0;
+      transition: opacity .3s ease;
+      z-index: 90;
+    }
+
+    #overlay.show {
+      display: block;
+      opacity: 1;
+    }
+
+    /* ========== HERO ========== */
+    .hero {
+      min-height: 55vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 16px 40px;
+      background-image: url('hero-materiali.jpg');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      color: #fff;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        120deg,
+        rgba(0,0,0,0.65),
+        rgba(0,0,0,0.35)
+      );
+    }
+
+    .hero-inner {
+      position: relative;
+      max-width: 900px;
+      text-align: left;
+    }
+
+    .hero-kicker {
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 0.75rem;
+      opacity: 0.9;
+      margin-bottom: 8px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.1rem, 3.5vw, 2.7rem);
+      line-height: 1.1;
+      margin-bottom: 14px;
+    }
+
+    .hero p {
+      max-width: 560px;
+      font-size: 1rem;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    /* ========== CONTENUTO ========== */
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 16px 60px;
+    }
+
+    .section-header {
+      margin-bottom: 22px;
+    }
+
+    .section-header h2 {
+      font-size: 1.6rem;
+      margin-bottom: 6px;
+    }
+
+    .section-header p {
+      font-size: 0.95rem;
+      color: #6b5b4b;
+    }
+
+    .prodotti-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 22px;
+    }
+
+    .prodotto {
+      border-radius: 14px;
+      background: #fff;
+      border: 1px solid #e4d7c9;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.04);
+    }
+
+    .prodotto-img-wrapper {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .prodotto img {
+      width: 100%;
+      height: auto;
+      transform: scale(1.02);
+      transition: transform .3s ease;
+    }
+
+    .prodotto:hover img {
+      transform: scale(1.06);
+    }
+
+    .tag-cat {
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      font-size: 0.75rem;
+    }
+
+    .prodotto-body {
+      padding: 14px 16px 12px;
+      flex: 1;
+    }
+
+    .prodotto-body h3 {
+      margin-bottom: 6px;
+      font-size: 1.05rem;
+    }
+
+    .prodotto-body p {
+      font-size: 0.9rem;
+      color: #5f4f40;
+    }
+
+    .prodotto-footer {
+      padding: 10px 16px 14px;
+      border-top: 1px solid #f0e4d7;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.9rem;
+    }
+
+    .price {
+      font-weight: 600;
+      color: #8b5a2b;
+    }
+
+    .link-scheda {
+      text-decoration: none;
+      color: #1f66d1;
+      font-weight: 500;
+    }
+
+    .link-scheda:hover {
+      text-decoration: underline;
+    }
+
+    /* ========== CONTATTI ========== */
+    .contatti {
+      margin-top: 60px;
+      border-radius: 18px;
+      padding: 24px 18px 26px;
+      background: #f1e4d6;
+      border: 1px solid #dfcfbe;
+    }
+
+    .contatti-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.4fr);
+      gap: 18px;
+      font-size: 0.95rem;
+    }
+
+    .contatti strong {
+      font-weight: 600;
+    }
+
+    /* ========== FOOTER ========== */
+    footer {
+      text-align: center;
+      padding: 20px 16px 30px;
+      font-size: 0.8rem;
+      color: #7a6a5b;
+    }
+
+    /* ========== MSG CARRELLO (se usato in futuro) ========== */
+    .msg-carrello {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      background: #1f66d1;
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: opacity .25s ease, transform .25s ease;
+      z-index: 200;
+    }
+
+    .msg-carrello.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 768px) {
+      .topbar-inner {
+        padding: 10px 16px 14px;
+      }
+
+      .topbar-row {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .hero {
+        text-align: left;
+        padding-top: 60px;
+      }
+
+      .hero p {
+        max-width: 100%;
+      }
+
+      .contatti-grid {
+        grid-template-columns: 1fr;
+      }
+
+      #menu-toggle {
+        font-size: 0.85rem;
+        padding: 8px 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="topbar-inner">
+    <div class="topbar-row">
+      <div class="logo-area">
+        <img src="logo-immobiliare-europa.png" alt="Logo Immobiliare Europa - Materiali da Costruzione Antichi" class="logo-img">
+      </div>
+
+      <nav aria-label="Navigazione principale">
+        <ul>
+          <li><a href="immobiliare-europa-multilingua.html" data-i18n="nav-home">Home</a></li>
+          <li><a href="#prodotti" data-i18n="nav-products">Prodotti</a></li>
+          <li><a href="#contatti" data-i18n="nav-contacts">Contatti</a></li>
+        </ul>
+      </nav>
+
+      <div class="lang-switcher">
+        <label for="language-switcher" data-i18n="lang-label">Lingua:</label>
+        <select id="language-switcher">
+          <option value="it">IT</option>
+          <option value="en">EN</option>
+          <option value="ru">RU</option>
+          <option value="zh">中文</option>
+          <option value="de_ch">DE-CH</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</header>
+
+<button id="menu-toggle" aria-label="Apri menù categorie" aria-controls="sidebar" aria-expanded="false" data-i18n="btn-categories">
+  ☰ Categorie
+</button>
+
+<aside id="sidebar" aria-label="Categorie materiali">
+  <h3 data-i18n="sidebar-title">Categorie</h3>
+  <a href="immobiliare-europa-multilingua.html#prodotti" data-i18n="cat-all">Tutte</a>
+  <a href="pianelle.html" data-i18n="cat-pianelle">Pianelle</a>
+  <a href="mattoni.html" data-i18n="cat-mattoni">Mattoni</a>
+  <a href="coppi.html" data-i18n="cat-coppi">Coppi</a>
+  <a href="cementine.html" data-i18n="cat-cementine">Cementine / Graniglie</a>
+</aside>
+
+<div id="overlay" aria-hidden="true"></div>
+
+<div id="msg-carrello" class="msg-carrello" role="status" aria-live="polite">
+  Prodotto aggiunto al carrello (demo)
+</div>
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-inner">
+    <div class="hero-kicker" data-i18n="hero-kicker">Recupero e selezione</div>
+    <h1 id="hero-title" data-i18n="mattoni-hero-title">Mattoni antichi di recupero</h1>
+    <p data-i18n="mattoni-hero-text">
+      Mattoni in laterizio recuperati da edifici storici, ideali per murature a vista, archi, volte e facciate tradizionali.
+    </p>
+  </div>
+</section>
+
+<main>
+  <section id="prodotti" aria-labelledby="prodotti-title">
+    <div class="section-header">
+      <h2 id="prodotti-title" data-i18n="mattoni-section-title">Mattoni per murature a vista</h2>
+      <p data-i18n="mattoni-section-text">
+        I mattoni vengono selezionati per dimensione, colore e qualità delle facce a vista, per ottenere murature omogenee e dall’aspetto autentico.
+      </p>
+    </div>
+
+    <div class="prodotti-grid">
+      <article class="prodotto">
+        <div class="prodotto-img-wrapper">
+          <span class="tag-cat" data-i18n="tag-walls">Murature</span>
+          <img src="https://via.placeholder.com/400x260?text=Mattoni+Antichi" alt="Mattoni antichi per murature a vista">
+        </div>
+        <div class="prodotto-body">
+          <h3 data-i18n="mattoni-card1-title">Mattoni antichi a vista</h3>
+          <p data-i18n="mattoni-card1-text">
+            Mattoni di recupero adatti a murature a vista interne ed esterne, con patina originale e spigoli leggermente consumati dal tempo.
+          </p>
+        </div>
+        <div class="prodotto-footer">
+          <span class="price" data-i18n="mattoni-card1-price">da €50 / m²</span>
+          <a href="#contatti" class="link-scheda" data-i18n="mattoni-card-cta">Richiedi disponibilità</a>
+        </div>
+      </article>
+
+      <article class="prodotto">
+        <div class="prodotto-img-wrapper">
+          <span class="tag-cat" data-i18n="tag-walls">Murature</span>
+          <img src="https://via.placeholder.com/400x260?text=Mattoni+per+Archi" alt="Mattoni antichi per archi e volte">
+        </div>
+        <div class="prodotto-body">
+          <h3 data-i18n="mattoni-card2-title">Mattoni per archi e volte</h3>
+          <p data-i18n="mattoni-card2-text">
+            Selezione di pezzi adatti alla realizzazione di archi, volte e cornici in laterizio, con formati compatibili con le tecniche costruttive tradizionali.
+          </p>
+        </div>
+        <div class="prodotto-footer">
+          <span class="price" data-i18n="mattoni-card2-price">da €55 / m²</span>
+          <a href="#contatti" class="link-scheda" data-i18n="mattoni-card-cta">Richiedi disponibilità</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="contatti" class="contatti" aria-labelledby="contatti-title">
+    <div class="section-header">
+      <h2 id="contatti-title" data-i18n="contacts-title">Contatti</h2>
+      <p data-i18n="contacts-text">
+        Inviaci misure, foto delle murature esistenti e riferimenti sul progetto: potremo proporti i mattoni più adatti e un lotto coerente per colore e formato.
+      </p>
+    </div>
+    <div class="contatti-grid">
+      <div>
+        <p><strong data-i18n="contacts-email-label">Email:</strong> <a href="mailto:info@materialiantichi.it">info@materialiantichi.it</a></p>
+        <p><strong data-i18n="contacts-phone-label">Telefono:</strong> <a href="tel:+393493002099">+39 349 300 2099</a></p>
+        <p>
+          <strong data-i18n="contacts-warehouse-label">Magazzino:</strong>
+          <span data-i18n="contacts-warehouse-text">Contrada S. Pietro Vecchio 2 (FM) – su appuntamento</span>
+        </p>
+      </div>
+      <div>
+        <p data-i18n="contacts-extra-text">
+          Possiamo fornire lotti omogenei per colore e formato, con spedizione in tutta Italia.
+          Su richiesta inviamo foto dettagliate dei lotti disponibili prima della conferma dell’ordine.
+        </p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p data-i18n="footer-text">© 2025 Materiali da Costruzione Antichi – Immobiliare Europa</p>
+</footer>
+
+<script>
+  const sidebar     = document.getElementById('sidebar');
+  const overlay     = document.getElementById('overlay');
+  const msgCarrello = document.getElementById('msg-carrello');
+  const menuToggle  = document.getElementById('menu-toggle');
+  const langSelect  = document.getElementById('language-switcher');
+
+  let currentLang = 'it';
+
+  const translations = {
+    it: {
+      'lang-label': 'Lingua:',
+      'nav-home': 'Home',
+      'nav-products': 'Prodotti',
+      'nav-contacts': 'Contatti',
+      'btn-categories': '☰ Categorie',
+      'sidebar-title': 'Categorie',
+      'cat-all': 'Tutte',
+      'cat-pianelle': 'Pianelle',
+      'cat-mattoni': 'Mattoni',
+      'cat-coppi': 'Coppi',
+      'cat-cementine': 'Cementine / Graniglie',
+      'hero-kicker': 'Recupero e selezione',
+      'mattoni-hero-title': 'Mattoni antichi di recupero',
+      'mattoni-hero-text': 'Mattoni in laterizio recuperati da edifici storici, ideali per murature a vista, archi, volte e facciate tradizionali.',
+      'mattoni-section-title': 'Mattoni per murature a vista',
+      'mattoni-section-text': 'I mattoni vengono selezionati per dimensione, colore e qualità delle facce a vista, per ottenere murature omogenee e dall’aspetto autentico.',
+      'tag-walls': 'Murature',
+      'mattoni-card1-title': 'Mattoni antichi a vista',
+      'mattoni-card1-text': 'Mattoni di recupero adatti a murature a vista interne ed esterne, con patina originale e spigoli leggermente consumati dal tempo.',
+      'mattoni-card1-price': 'da €50 / m²',
+      'mattoni-card2-title': 'Mattoni per archi e volte',
+      'mattoni-card2-text': 'Selezione di pezzi adatti alla realizzazione di archi, volte e cornici in laterizio, con formati compatibili con le tecniche costruttive tradizionali.',
+      'mattoni-card2-price': 'da €55 / m²',
+      'mattoni-card-cta': 'Richiedi disponibilità',
+      'contacts-title': 'Contatti',
+      'contacts-text': 'Inviaci misure, foto delle murature esistenti e riferimenti sul progetto: potremo proporti i mattoni più adatti e un lotto coerente per colore e formato.',
+      'contacts-email-label': 'Email:',
+      'contacts-phone-label': 'Telefono:',
+      'contacts-warehouse-label': 'Magazzino:',
+      'contacts-warehouse-text': 'Contrada S. Pietro Vecchio 2 (FM) – su appuntamento',
+      'contacts-extra-text': 'Possiamo fornire lotti omogenei per colore e formato, con spedizione in tutta Italia. Su richiesta inviamo foto dettagliate dei lotti disponibili prima della conferma dell’ordine.',
+      'footer-text': '© 2025 Materiali da Costruzione Antichi – Immobiliare Europa',
+      'cart-message': '{product} aggiunto al carrello (demo)'
+    },
+    en: {
+      'lang-label': 'Language:',
+      'nav-home': 'Home',
+      'nav-products': 'Products',
+      'nav-contacts': 'Contacts',
+      'btn-categories': '☰ Categories',
+      'sidebar-title': 'Categories',
+      'cat-all': 'All',
+      'cat-pianelle': 'Floor tiles',
+      'cat-mattoni': 'Bricks',
+      'cat-coppi': 'Roof tiles',
+      'cat-cementine': 'Cement tiles / Terrazzo tiles',
+      'hero-kicker': 'Salvaged & selected',
+      'mattoni-hero-title': 'Reclaimed antique bricks',
+      'mattoni-hero-text': 'Reclaimed clay bricks from historic buildings, ideal for exposed walls, arches, vaults and traditional facades.',
+      'mattoni-section-title': 'Bricks for exposed masonry',
+      'mattoni-section-text': 'Bricks are selected for size, colour and quality of the visible faces, to achieve homogeneous and authentic-looking masonry.',
+      'tag-walls': 'Walls',
+      'mattoni-card1-title': 'Antique bricks for exposed walls',
+      'mattoni-card1-text': 'Reclaimed bricks suitable for interior and exterior exposed walls, with original patina and edges softened by time.',
+      'mattoni-card1-price': 'from €50 / m²',
+      'mattoni-card2-title': 'Bricks for arches and vaults',
+      'mattoni-card2-text': 'Selection of pieces suitable for arches, vaults and brick cornices, with formats compatible with traditional construction techniques.',
+      'mattoni-card2-price': 'from €55 / m²',
+      'mattoni-card-cta': 'Request availability',
+      'contacts-title': 'Contacts',
+      'contacts-text': 'Send us measurements, photos of existing walls and a few project details: we will suggest the most suitable bricks and a consistent batch in colour and size.',
+      'contacts-email-label': 'Email:',
+      'contacts-phone-label': 'Phone:',
+      'contacts-warehouse-label': 'Warehouse:',
+      'contacts-warehouse-text': 'Contrada S. Pietro Vecchio 2 (FM) – by appointment only',
+      'contacts-extra-text': 'We can supply homogeneous batches in colour and size, with shipping throughout Italy. On request we send detailed photos of the available batches before confirming the order.',
+      'footer-text': '© 2025 Antique Building Materials – Immobiliare Europa',
+      'cart-message': '{product} added to cart (demo)'
+    },
+    ru: {
+      'lang-label': 'Язык:',
+      'nav-home': 'Главная',
+      'nav-products': 'Материалы',
+      'nav-contacts': 'Контакты',
+      'btn-categories': '☰ Категории',
+      'sidebar-title': 'Категории',
+      'cat-all': 'Все',
+      'cat-pianelle': 'Плитка',
+      'cat-mattoni': 'Кирпич',
+      'cat-coppi': 'Черепица',
+      'cat-cementine': 'Цементные плитки / Гранитные плиты',
+      'hero-kicker': 'Отбор и восстановление',
+      'mattoni-hero-title': 'Старинный кирпич вторичного использования',
+      'mattoni-hero-text': 'Кирпич из исторических зданий, идеально подходящий для открытой кладки, арок, сводов и традиционных фасадов.',
+      'mattoni-section-title': 'Кирпич для открытой кладки',
+      'mattoni-section-text': 'Каждая партия подбирается по размеру, цвету и качеству лицевых поверхностей, чтобы получить однородную и аутентичную кладку.',
+      'tag-walls': 'Стены',
+      'mattoni-card1-title': 'Кирпич для открытой кладки',
+      'mattoni-card1-text': 'Кирпич б/у для наружных и внутренних стен, с оригинальной патиной и слегка сглаженными временем кромками.',
+      'mattoni-card1-price': 'от 50 € / м²',
+      'mattoni-card2-title': 'Кирпич для арок и сводов',
+      'mattoni-card2-text': 'Подборка изделий для арок, сводчатых перекрытий и кирпичных карнизов, совместимых с традиционными строительными технологиями.',
+      'mattoni-card2-price': 'от 55 € / м²',
+      'mattoni-card-cta': 'Уточнить наличие',
+      'contacts-title': 'Контакты',
+      'contacts-text': 'Пришлите нам размеры, фотографии существующей кладки и описание проекта — мы подберём подходящий кирпич и однородную партию по цвету и формату.',
+      'contacts-email-label': 'Email:',
+      'contacts-phone-label': 'Телефон:',
+      'contacts-warehouse-label': 'Склад:',
+      'contacts-warehouse-text': 'Contrada S. Pietro Vecchio 2 (FM) – по предварительной записи',
+      'contacts-extra-text': 'Мы поставляем однородные партии по цвету и формату с доставкой по всей Италии. По запросу высылаем подробные фотографии доступных партий до подтверждения заказа.',
+      'footer-text': '© 2025 Старинные строительные материалы – Immobiliare Europa',
+      'cart-message': '{product} добавлен в корзину (демо)'
+    },
+    zh: {
+      'lang-label': '语言：',
+      'nav-home': '首页',
+      'nav-products': '产品',
+      'nav-contacts': '联系方式',
+      'btn-categories': '☰ 分类',
+      'sidebar-title': '分类',
+      'cat-all': '全部',
+      'cat-pianelle': '地砖',
+      'cat-mattoni': '砖',
+      'cat-coppi': '屋瓦',
+      'cat-cementine': '水泥花砖 / 水磨石',
+      'hero-kicker': '回收与精选',
+      'mattoni-hero-title': '古董回收砖块',
+      'mattoni-hero-text': '从历史建筑中回收的粘土砖，非常适合用于清水墙、拱券、穹顶和传统立面。',
+      'mattoni-section-title': '用于清水墙的砖',
+      'mattoni-section-text': '每一批砖都根据尺寸、颜色和可视面的质量精心筛选，以获得统一而真实的砌体效果。',
+      'tag-walls': '墙体',
+      'mattoni-card1-title': '用于清水墙的古砖',
+      'mattoni-card1-text': '适用于室内外清水墙的回收砖，保留原始包浆和自然磨圆的棱角。',
+      'mattoni-card1-price': '每平方米起价 €50',
+      'mattoni-card2-title': '用于拱券和穹顶的砖',
+      'mattoni-card2-text': '适合用于砌筑拱券、穹顶和砖檐的砖块，其尺寸与传统施工工艺兼容。',
+      'mattoni-card2-price': '每平方米起价 €55',
+      'mattoni-card-cta': '咨询库存',
+      'contacts-title': '联系方式',
+      'contacts-text': '请将尺寸、现有砌体照片以及项目信息发给我们，我们会为您推荐最合适的砖块和颜色尺寸统一的批次。',
+      'contacts-email-label': '邮箱：',
+      'contacts-phone-label': '电话：',
+      'contacts-warehouse-label': '仓库：',
+      'contacts-warehouse-text': 'Contrada S. Pietro Vecchio 2 (FM) – 需提前预约',
+      'contacts-extra-text': '我们可提供在颜色和规格上尽量一致的整批材料，并可配送至意大利各地。确认订单前，可按需提供现货批次的详细照片。',
+      'footer-text': '© 2025 古建建筑材料 – Immobiliare Europa',
+      'cart-message': '已将 {product} 加入购物车（演示）'
+    },
+    de_ch: {
+      'lang-label': 'Sprache:',
+      'nav-home': 'Startseite',
+      'nav-products': 'Materialien',
+      'nav-contacts': 'Kontakt',
+      'btn-categories': '☰ Kategorien',
+      'sidebar-title': 'Kategorien',
+      'cat-all': 'Alle',
+      'cat-pianelle': 'Bodenplatten',
+      'cat-mattoni': 'Ziegel',
+      'cat-coppi': 'Dachziegel',
+      'cat-cementine': 'Zementfliesen / Terrazzo',
+      'hero-kicker': 'Rückgewinnung & Auswahl',
+      'mattoni-hero-title': 'Antike Ziegel aus Rückbau',
+      'mattoni-hero-text': 'Ziegel aus historischen Gebäuden, ideal für Sichtmauerwerk, Bögen, Gewölbe und traditionelle Fassaden.',
+      'mattoni-section-title': 'Ziegel für Sichtmauerwerk',
+      'mattoni-section-text': 'Die Ziegel werden nach Format, Farbe und Qualität der Sichtseiten ausgewählt, um homogene und authentisch wirkende Mauerwerke zu erhalten.',
+      'tag-walls': 'Mauerwerk',
+      'mattoni-card1-title': 'Ziegel für Sichtmauerwerk',
+      'mattoni-card1-text': 'Wiederverwendete Ziegel für Innen- und Aussenwände, mit ursprünglicher Patina und leicht abgerundeten Kanten.',
+      'mattoni-card1-price': 'ab €50 / m²',
+      'mattoni-card2-title': 'Ziegel für Bögen und Gewölbe',
+      'mattoni-card2-text': 'Auswahl an Ziegeln für Bögen, Gewölbe und Ziergesimse, mit Formaten, die zu traditionellen Bauweisen passen.',
+      'mattoni-card2-price': 'ab €55 / m²',
+      'mattoni-card-cta': 'Verfügbarkeit anfragen',
+      'contacts-title': 'Kontakt',
+      'contacts-text': 'Senden Sie uns Masse, Fotos der bestehenden Mauerwerke und Projektdetails – wir empfehlen passende Ziegel und eine einheitliche Charge in Farbe und Format.',
+      'contacts-email-label': 'E-Mail:',
+      'contacts-phone-label': 'Telefon:',
+      'contacts-warehouse-label': 'Lager:',
+      'contacts-warehouse-text': 'Contrada S. Pietro Vecchio 2 (FM) – nach Terminvereinbarung',
+      'contacts-extra-text': 'Wir liefern homogene Chargen in Farbe und Format, mit Versand in ganz Italien. Auf Wunsch senden wir Detailfotos der verfügbaren Chargen vor der Auftragsbestätigung.',
+      'footer-text': '© 2025 Antike Baumaterialien – Immobiliare Europa',
+      'cart-message': '{product} zum Warenkorb hinzugefügt (Demo)'
+    }
+  };
+
+  function setLanguage(lang) {
+    currentLang = lang;
+    document.documentElement.lang = (lang === 'de_ch') ? 'de-CH' : lang;
+
+    const dict = translations[lang] || translations['it'];
+    document.querySelectorAll('[data-i18n]').forEach((el) => {
+      const key = el.getAttribute('data-i18n');
+      if (dict[key]) {
+        el.textContent = dict[key];
+      }
+    });
+
+    if (dict['btn-categories']) {
+      menuToggle.textContent = dict['btn-categories'];
+      menuToggle.setAttribute('aria-label', dict['btn-categories']);
+    }
+  }
+
+  function openSidebar() {
+    sidebar.classList.add('open');
+    overlay.classList.add('show');
+    menuToggle.setAttribute('aria-expanded', 'true');
+  }
+
+  function closeSidebar() {
+    sidebar.classList.remove('open');
+    overlay.classList.remove('show');
+    menuToggle.setAttribute('aria-expanded', 'false');
+  }
+
+  menuToggle.onclick = () => {
+    const open = sidebar.classList.contains('open');
+    if (open) {
+      closeSidebar();
+    } else {
+      openSidebar();
+    }
+  };
+
+  overlay.onclick = () => {
+    closeSidebar();
+  };
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+      closeSidebar();
+    }
+  });
+
+  // 🔹 Legge la lingua salvata (se esiste) e la applica all'avvio
+  const savedLang = localStorage.getItem('site-lang') || 'it';
+  currentLang = savedLang;
+  langSelect.value = savedLang;
+  setLanguage(savedLang);
+
+  // 🔹 Quando l'utente cambia lingua, salviamo la scelta e aggiorniamo i testi
+  langSelect.addEventListener('change', (e) => {
+    const newLang = e.target.value;
+    localStorage.setItem('site-lang', newLang);
+    setLanguage(newLang);
+  });
+
+  function add(nome, prezzo, id) {
+    const dict = translations[currentLang] || translations['it'];
+    const template = dict['cart-message'] || translations['it']['cart-message'];
+    const msg = template.replace('{product}', nome);
+    if (!msgCarrello) return;
+    msgCarrello.textContent = msg;
+    msgCarrello.classList.add('show');
+    setTimeout(() => msgCarrello.classList.remove('show'), 1500);
+  }
+</script>
+
+</body>
+</html>
