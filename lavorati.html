@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Immobiliare Europa – Lavorati in cotto e pietra</title>
+  <meta name="description" content="Elementi lavorati in cotto e pietra antica: soglie, davanzali, cornici, gradini, pezzi speciali per restauri di casali e borghi storici.">
+
+  <style>
+    /* ========== BASE ========== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f5f1eb;
+      color: #222;
+      line-height: 1.4;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ========== HEADER / TOPBAR ========== */
+    header {
+      width: 100%;
+      z-index: 50;
+      background: rgba(250,245,240,0.96);
+      border-bottom: 1px solid #e3d7c7;
+    }
+
+    .topbar-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 10px 16px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .topbar-row {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .logo-img {
+      height: 80px;
+      width: auto;
+    }
+
+    nav {
+      width: auto;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #3b3025;
+      font-size: 0.9rem;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .lang-switcher {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+    }
+
+    .lang-switcher label {
+      color: #6b5b4b;
+    }
+
+    .lang-switcher select {
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid #c9b9a5;
+      background: #fdf6ec;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    /* ========== SIDEBAR CATEGORIE ========== */
+    #menu-toggle {
+      position: fixed;
+      left: 16px;
+      bottom: 16px;
+      z-index: 60;
+      border-radius: 999px;
+      border: none;
+      background: #3b3025;
+      color: #fdf6ec;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+    }
+
+    #menu-toggle:focus-visible {
+      outline: 2px solid #f5b26b;
+      outline-offset: 2px;
+    }
+
+    #sidebar {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background: #fdf7f0;
+      border-right: 1px solid #e3d7c7;
+      overflow: hidden;
+      transition: width .3s ease, opacity .25s ease;
+      opacity: 0;
+      z-index: 100;
+      padding-top: 60px;
+    }
+
+    #sidebar.open {
+      width: 240px;
+      opacity: 1;
+    }
+
+    #sidebar h3 {
+      margin: 0 0 8px 18px;
+      font-size: 0.8rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #8b7a6b;
+    }
+
+    #sidebar a {
+      display: block;
+      padding: 10px 18px;
+      text-decoration: none;
+      color: #3b3025;
+      font-size: 0.9rem;
+    }
+
+    #sidebar a:hover {
+      background: #efe3d5;
+    }
+
+    #overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.25);
+      opacity: 0;
+      transition: opacity .3s ease;
+      z-index: 90;
+    }
+
+    #overlay.show {
+      display: block;
+      opacity: 1;
+    }
+
+    /* ========== HERO ========== */
+    .hero {
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 16px 60px;
+      background-image: url('hero-lavorati.jpg');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      color: #fff;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        120deg,
+        rgba(0,0,0,0.65),
+        rgba(0,0,0,0.35)
+      );
+    }
+
+    .hero-inner {
+      position: relative;
+      max-width: 900px;
+      text-align: left;
+    }
+
+    .hero-kicker {
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 0.75rem;
+      opacity: 0.9;
+      margin-bottom: 8px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 4vw, 3rem);
+      line-height: 1.1;
+      margin-bottom: 14px;
+    }
+
+    .hero p {
+      max-width: 560px;
+      font-size: 1rem;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .cta-btn,
+    .ghost-btn {
+      display: inline-block;
+      padding: 10px 22px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .cta-btn {
+      border: none;
+      background: #f5b26b;
+      color: #3b3025;
+    }
+
+    .cta-btn:hover {
+      background: #ffc27f;
+    }
+
+    .ghost-btn {
+      border: 1px solid rgba(255,255,255,0.8);
+      color: #fff;
+      background: transparent;
+    }
+
+    .ghost-btn:hover {
+      background: rgba(0,0,0,0.12);
+    }
+
+    /* ========== CONTENUTO ========== */
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 16px 60px;
+    }
+
+    .section-header {
+      margin-bottom: 22px;
+    }
+
+    .section-header h2 {
+      font-size: 1.6rem;
+      margin-bottom: 6px;
+    }
+
+    .section-header p {
+      font-size: 0.95rem;
+      color: #6b5b4b;
+    }
+
+    .prodotti-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 22px;
+    }
+
+    .prodotto {
+      border-radius: 14px;
+      background: #fff;
+      border: 1px solid #e4d7c9;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.04);
+    }
+
+    .prodotto-img-wrapper {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .prodotto img {
+      width: 100%;
+      height: auto;
+      transform: scale(1.02);
+      transition: transform .3s ease;
+    }
+
+    .prodotto:hover img {
+      transform: scale(1.06);
+    }
+
+    .tag-cat {
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      font-size: 0.75rem;
+    }
+
+    .prodotto-body {
+      padding: 14px 16px 12px;
+      flex: 1;
+    }
+
+    .prodotto-body h3 {
+      margin-bottom: 6px;
+      font-size: 1.05rem;
+    }
+
+    .prodotto-body p {
+      font-size: 0.9rem;
+      color: #5f4f40;
+    }
+
+    .prodotto-footer {
+      padding: 10px 16px 14px;
+      border-top: 1px solid #f0e4d7;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.9rem;
+    }
+
+    .price {
+      font-weight: 600;
+      color: #8b5a2b;
+    }
+
+    .link-scheda {
+      text-decoration: none;
+      color: #1f66d1;
+      font-weight: 500;
+    }
+
+    .link-scheda:hover {
+      text-decoration: underline;
+    }
+
+    /* ========== CONTATTI ========== */
+    .contatti {
+      margin-top: 60px;
+      border-radius: 18px;
+      padding: 24px 18px 26px;
+      background: #f1e4d6;
+      border: 1px solid #dfcfbe;
+    }
+
+    .contatti-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.4fr);
+      gap: 18px;
+      font-size: 0.95rem;
+    }
+
+    .contatti strong {
+      font-weight: 600;
+    }
+
+    /* ========== FOOTER ========== */
+    footer {
+      text-align: center;
+      padding: 20px 16px 30px;
+      font-size: 0.8rem;
+      color: #7a6a5b;
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 768px) {
+      .topbar-inner {
+        padding: 10px 16px 14px;
+      }
+
+      .topbar-row {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .hero {
+        text-align: left;
+        padding-top: 60px;
+      }
+
+      .hero p {
+        max-width: 100%;
+      }
+
+      .contatti-grid {
+        grid-template-columns: 1fr;
+      }
+
+      #menu-toggle {
+        font-size: 0.85rem;
+        padding: 8px 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="topbar-inner">
+    <div class="topbar-row">
+      <div class="logo-area">
+        <img src="logo-immobiliare-europa.png" alt="Logo Immobiliare Europa - Materiali da Costruzione Antichi" class="logo-img">
+      </div>
+
+      <nav aria-label="Navigazione principale">
+        <ul>
+          <!-- ✅ Home corretto -->
+          <li><a href="index.html" data-i18n="nav-home">Home</a></li>
+          <li><a href="#prodotti" data-i18n="nav-products">Prodotti</a></li>
+          <li><a href="#contatti" data-i18n="nav-contacts">Contatti</a></li>
+        </ul>
+      </nav>
+
+      <div class="lang-switcher">
+        <label for="language-switcher" data-i18n="lang-label">Lingua:</label>
+        <select id="language-switcher">
+          <option value="it">IT</option>
+          <option value="en">EN</option>
+          <option value="ru">RU</option>
+          <option value="zh">中文</option>
+          <option value="de_ch">DE-CH</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</header>
+
+<button id="menu-toggle" aria-label="Apri menù categorie" aria-controls="sidebar" aria-expanded="false" data-i18n="btn-categories">
+  ☰ Categorie
+</button>
+
+<aside id="sidebar" aria-label="Categorie materiali">
+  <h3 data-i18n="sidebar-title">Categorie</h3>
+
+  <!-- ✅ Niente "Tutte" e categorie in ordine alfabetico -->
+  <a href="cementine.html" data-i18n="cat-cementine">Cementine</a>
+  <a href="coppi.html" data-i18n="cat-coppi">Coppi</a>
+  <a href="finiture-scale.html" data-i18n="cat-finiture-scale">Finiture per scale</a>
+  <a href="graniglie.html" data-i18n="cat-graniglie">Graniglie</a>
+  <a href="lavorati.html" data-i18n="cat-lavorati">Lavorati</a>
+  <a href="mattoni.html" data-i18n="cat-mattoni">Mattoni</a>
+  <a href="pianelle.html" data-i18n="cat-pianelle">Pianelle</a>
+</aside>
+
+<div id="overlay" aria-hidden="true"></div>
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-inner">
+    <div class="hero-kicker" data-i18n="lavorati-hero-kicker">Elementi lavorati</div>
+    <h1 id="hero-title" data-i18n="lavorati-hero-title">Lavorati in cotto e pietra antica</h1>
+    <p data-i18n="lavorati-hero-text">
+      Soglie, davanzali, cornici, gradini e pezzi speciali ricavati da materiali antichi, per dettagli di pregio in restauri e ristrutturazioni.
+    </p>
+    <div class="hero-actions">
+      <a href="#prodotti" class="cta-btn" data-i18n="lavorati-hero-cta-browse">Vedi i lavorati disponibili</a>
+      <a href="#contatti" class="ghost-btn" data-i18n="lavorati-hero-cta-availability">Richiedi disponibilità e foto</a>
+    </div>
+  </div>
+</section>
+
+<main>
+  <section id="prodotti" aria-labelledby="prodotti-title">
+    <div class="section-header">
+      <h2 id="prodotti-title" data-i18n="lavorati-section-title">Lavorati disponibili</h2>
+      <p data-i18n="lavorati-section-text">Elementi originali lavorati a mano, pronti per essere inseriti in contesti storici e di pregio.</p>
+    </div>
+
+    <div class="prodotti-grid">
+      <article class="prodotto">
+        <div class="prodotto-img-wrapper">
+          <span class="tag-cat" data-i18n="lavorati-card1-tag">Soglie e davanzali</span>
+          <img src="https://via.placeholder.com/400x260?text=Soglie+in+cotto" alt="Soglie e davanzali in cotto antico">
+        </div>
+        <div class="prodotto-body">
+          <h3 data-i18n="lavorati-card1-title">Soglie e davanzali in cotto</h3>
+          <p data-i18n="lavorati-card1-text">
+            Elementi ricavati da pianelle e mattoni antichi, ideali per completare porte e finestre con una finitura calda e materica.
+          </p>
+        </div>
+        <div class="prodotto-footer">
+          <span class="price" data-i18n="lavorati-card1-price">prezzi su richiesta</span>
+          <a href="#contatti" class="link-scheda" data-i18n="lavorati-card1-cta">Richiedi foto e misure</a>
+        </div>
+      </article>
+
+      <article class="prodotto">
+        <div class="prodotto-img-wrapper">
+          <span class="tag-cat" data-i18n="lavorati-card2-tag">Cornici e modanature</span>
+          <img src="https://via.placeholder.com/400x260?text=Cornici+in+pietra" alt="Cornici in pietra antica lavorata">
+        </div>
+        <div class="prodotto-body">
+          <h3 data-i18n="lavorati-card2-title">Cornici in pietra antica</h3>
+          <p data-i18n="lavorati-card2-text">
+            Cornici per porte, finestre e nicchie realizzate con pietra di recupero, pronte per essere inserite in facciate e interni tradizionali.
+          </p>
+        </div>
+        <div class="prodotto-footer">
+          <span class="price" data-i18n="lavorati-card2-price">prezzi su richiesta</span>
+          <a href="#contatti" class="link-scheda" data-i18n="lavorati-card2-cta">Richiedi info</a>
+        </div>
+      </article>
+
+      <article class="prodotto">
+        <div class="prodotto-img-wrapper">
+          <span class="tag-cat" data-i18n="lavorati-card3-tag">Pezzi speciali</span>
+          <img src="https://via.placeholder.com/400x260?text=Pezzi+speciali" alt="Pezzi speciali in cotto e pietra antica">
+        </div>
+        <div class="prodotto-body">
+          <h3 data-i18n="lavorati-card3-title">Pezzi speciali su misura</h3>
+          <p data-i18n="lavorati-card3-text">
+            Su richiesta possiamo selezionare lavorati particolari per capitelli, sedute, soglie di grandi dimensioni o elementi decorativi.
+          </p>
+        </div>
+        <div class="prodotto-footer">
+          <span class="price" data-i18n="lavorati-card3-price">su selezione</span>
+          <a href="#contatti" class="link-scheda" data-i18n="lavorati-card3-cta">Parla con noi</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="contatti" class="contatti" aria-labelledby="contatti-title">
+    <div class="section-header">
+      <h2 id="contatti-title" data-i18n="contacts-title">Contatti</h2>
+      <p data-i18n="contacts-text">Inviaci misure e foto: ti proponiamo il materiale più adatto alle tue esigenze.</p>
+    </div>
+    <div class="contatti-grid">
+      <div>
+        <p><strong data-i18n="contacts-email-label">Email:</strong> <a href="mailto:info@materialiantichi.it">info@materialiantichi.it</a></p>
+        <p><strong data-i18n="contacts-phone-label">Telefono:</strong> <a href="tel:+393493002099">+39 349 300 2099</a></p>
+        <p>
+          <strong data-i18n="contacts-warehouse-label">Magazzino:</strong>
+          <span data-i18n="contacts-warehouse-text">Contrada S. Pietro Vecchio 2 (FM) – su appuntamento</span>
+        </p>
+      </div>
+      <div>
+        <p data-i18n="contacts-extra-text">
+          Possiamo fornire lotti omogenei per colore e formato, con spedizione in tutta Italia.
+          Su richiesta inviamo foto dettagliate dei lotti disponibili prima della conferma dell’ordine.
+        </p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p data-i18n="footer-text">© 2025 Materiali da Costruzione Antichi – Immobiliare Europa</p>
+</footer>
+
+<script>
+  const sidebar     = document.getElementById('sidebar');
+  const overlay     = document.getElementById('overlay');
+  const menuToggle  = document.getElementById('menu-toggle');
+  const langSelect  = document.getElementById('language-switcher');
+
+  let currentLang = 'it';
+
+  const translations = {
+    it: {
+      'lang-label': 'Lingua:',
+      'nav-home': 'Home',
+      'nav-products': 'Prodotti',
+      'nav-contacts': 'Contatti',
+      'btn-categories': '☰ Categorie',
+      'sidebar-title': 'Categorie',
+      'cat-all': 'Tutte',
+      'cat-pianelle': 'Pianelle',
+      'cat-mattoni': 'Mattoni',
+      'cat-coppi': 'Coppi',
+      'cat-cementine': 'Cementine',
+      'cat-graniglie': 'Graniglie',
+      'cat-lavorati': 'Lavorati',
+      'cat-finiture-scale': 'Finiture per scale',
+
+      'lavorati-hero-kicker': 'Elementi lavorati',
+      'lavorati-hero-title': 'Lavorati in cotto e pietra antica',
+      'lavorati-hero-text': 'Soglie, davanzali, cornici, gradini e pezzi speciali ricavati da materiali antichi, per dettagli di pregio in restauri e ristrutturazioni.',
+      'lavorati-hero-cta-browse': 'Vedi i lavorati disponibili',
+      'lavorati-hero-cta-availability': 'Richiedi disponibilità e foto',
+
+      'lavorati-section-title': 'Lavorati disponibili',
+      'lavorati-section-text': 'Elementi originali lavorati a mano, pronti per essere inseriti in contesti storici e di pregio.',
+
+      'lavorati-card1-tag': 'Soglie e davanzali',
+      'lavorati-card1-title': 'Soglie e davanzali in cotto',
+      'lavorati-card1-text': 'Elementi ricavati da pianelle e mattoni antichi, ideali per completare porte e finestre con una finitura calda e materica.',
+      'lavorati-card1-price': 'prezzi su richiesta',
+      'lavorati-card1-cta': 'Richiedi foto e misure',
+
+      'lavorati-card2-tag': 'Cornici e modanature',
+      'lavorati-card2-title': 'Cornici in pietra antica',
+      'lavorati-card2-text': 'Cornici per porte, finestre e nicchie realizzate con pietra di recupero, pronte per essere inserite in facciate e interni tradizionali.',
+      'lavorati-card2-price': 'prezzi su richiesta',
+      'lavorati-card2-cta': 'Richiedi info',
+
+      'lavorati-card3-tag': 'Pezzi speciali',
+      'lavorati-card3-title': 'Pezzi speciali su misura',
+      'lavorati-card3-text': 'Su richiesta possiamo selezionare lavorati particolari per capitelli, sedute, soglie di grandi dimensioni o elementi decorativi.',
+      'lavorati-card3-price': 'su selezione',
+      'lavorati-card3-cta': 'Parla con noi',
+
+      'contacts-title': 'Contatti',
+      'contacts-text': 'Inviaci misure e foto: ti proponiamo il materiale più adatto alle tue esigenze.',
+      'contacts-email-label': 'Email:',
+      'contacts-phone-label': 'Telefono:',
+      'contacts-warehouse-label': 'Magazzino:',
+      'contacts-warehouse-text': 'Contrada S. Pietro Vecchio 2 (FM) – su appuntamento',
+      'contacts-extra-text': 'Possiamo fornire lotti omogenei per colore e formato, con spedizione in tutta Italia. Su richiesta inviamo foto dettagliate dei lotti disponibili prima della conferma dell’ordine.',
+      'footer-text': '© 2025 Materiali da Costruzione Antichi – Immobiliare Europa'
+    },
+    en: {
+      'lang-label': 'Language:',
+      'nav-home': 'Home',
+      'nav-products': 'Products',
+      'nav-contacts': 'Contacts',
+      'btn-categories': '☰ Categories',
+      'sidebar-title': 'Categories',
+      'cat-all': 'All',
+      'cat-pianelle': 'Floor tiles',
+      'cat-mattoni': 'Bricks',
+      'cat-coppi': 'Roof tiles',
+      'cat-cementine': 'Cement tiles',
+      'cat-graniglie': 'Terrazzo tiles',
+      'cat-lavorati': 'Worked elements',
+      'cat-finiture-scale': 'Stair finishes',
+
+      'lavorati-hero-kicker': 'Worked elements',
+      'lavorati-hero-title': 'Worked pieces in antique terracotta and stone',
+      'lavorati-hero-text': 'Door sills, window sills, frames, steps and special pieces made from reclaimed materials, for high-quality details in restorations and renovations.',
+      'lavorati-hero-cta-browse': 'See available worked pieces',
+      'lavorati-hero-cta-availability': 'Request availability and photos',
+
+      'lavorati-section-title': 'Available worked pieces',
+      'lavorati-section-text': 'Original hand-worked elements, ready to be installed in historic and high-quality settings.',
+
+      'lavorati-card1-tag': 'Sills and window sills',
+      'lavorati-card1-title': 'Terracotta sills and window sills',
+      'lavorati-card1-text': 'Elements made from antique floor tiles and bricks, ideal for finishing doors and windows with a warm, tactile surface.',
+      'lavorati-card1-price': 'prices on request',
+      'lavorati-card1-cta': 'Request photos and sizes',
+
+      'lavorati-card2-tag': 'Frames and mouldings',
+      'lavorati-card2-title': 'Frames in antique stone',
+      'lavorati-card2-text': 'Frames for doors, windows and niches made from reclaimed stone, ready to be fitted into traditional façades and interiors.',
+      'lavorati-card2-price': 'prices on request',
+      'lavorati-card2-cta': 'Request info',
+
+      'lavorati-card3-tag': 'Special pieces',
+      'lavorati-card3-title': 'Custom special pieces',
+      'lavorati-card3-text': 'On request we can select special worked elements for capitals, seating, large sills or decorative features.',
+      'lavorati-card3-price': 'on selection',
+      'lavorati-card3-cta': 'Talk to us',
+
+      'contacts-title': 'Contacts',
+      'contacts-text': 'Send us measurements and photos: we will suggest the most suitable material for your needs.',
+      'contacts-email-label': 'Email:',
+      'contacts-phone-label': 'Phone:',
+      'contacts-warehouse-label': 'Warehouse:',
+      'contacts-warehouse-text': 'Contrada S. Pietro Vecchio 2 (FM) – by appointment only',
+      'contacts-extra-text': 'We can supply homogeneous batches in colour and size, with shipping throughout Italy. On request we send detailed photos of the available batches before confirming the order.',
+      'footer-text': '© 2025 Antique Building Materials – Immobiliare Europa'
+    },
+    ru: {
+      'lang-label': 'Язык:',
+      'nav-home': 'Главная',
+      'nav-products': 'Материалы',
+      'nav-contacts': 'Контакты',
+      'btn-categories': '☰ Категории',
+      'sidebar-title': 'Категории',
+      'cat-all': 'Все',
+      'cat-pianelle': 'Плитка',
+      'cat-mattoni': 'Кирпич',
+      'cat-coppi': 'Черепица',
+      'cat-cementine': 'Цементные плитки',
+      'cat-graniglie': 'Гранитная мозаика',
+      'cat-lavorati': 'Обработанные элементы',
+      'cat-finiture-scale': 'Отделка лестниц',
+
+      'lavorati-hero-kicker': 'Обработанные элементы',
+      'lavorati-hero-title': 'Изделия из старинной терракоты и камня',
+      'lavorati-hero-text': 'Пороги, подоконники, наличники, ступени и специальные элементы из старинных материалов — для выразительных деталей в реставрации и ремонте.',
+      'lavorati-hero-cta-browse': 'Смотреть доступные изделия',
+      'lavorati-hero-cta-availability': 'Уточнить наличие и фото',
+
+      'lavorati-section-title': 'Доступные изделия',
+      'lavorati-section-text': 'Оригинальные элементы ручной обработки, готовые к монтажу в исторических и престижных интерьерах.',
+
+      'lavorati-card1-tag': 'Пороги и подоконники',
+      'lavorati-card1-title': 'Пороги и подоконники из терракоты',
+      'lavorati-card1-text': 'Элементы из старинной плитки и кирпича, идеальны для оформления дверных и оконных проёмов с тёплой фактурной поверхностью.',
+      'lavorati-card1-price': 'цены по запросу',
+      'lavorati-card1-cta': 'Запросить фото и размеры',
+
+      'lavorati-card2-tag': 'Наличники и молдинги',
+      'lavorati-card2-title': 'Наличники из старинного камня',
+      'lavorati-card2-text': 'Наличники для дверей, окон и ниш из восстановленного камня, готовые к установке на фасадах и в традиционных интерьерах.',
+      'lavorati-card2-price': 'цены по запросу',
+      'lavorati-card2-cta': 'Запросить информацию',
+
+      'lavorati-card3-tag': 'Специальные элементы',
+      'lavorati-card3-title': 'Специальные изделия на заказ',
+      'lavorati-card3-text': 'По запросу подбираем особые элементы для капителей, лавок, крупных порогов или декоративных деталей.',
+      'lavorati-card3-price': 'по подбору',
+      'lavorati-card3-cta': 'Связаться с нами',
+
+      'contacts-title': 'Контакты',
+      'contacts-text': 'Отправьте нам размеры и фотографии — мы предложим материал, наиболее подходящий вашим задачам.',
+      'contacts-email-label': 'Email:',
+      'contacts-phone-label': 'Телефон:',
+      'contacts-warehouse-label': 'Склад:',
+      'contacts-warehouse-text': 'Contrada S. Pietro Vecchio 2 (FM) – по предварительной записи',
+      'contacts-extra-text': 'Мы поставляем однородные партии по цвету и формату с доставкой по всей Италии. По запросу высылаем подробные фотографии доступных партий до подтверждения заказа.',
+      'footer-text': '© 2025 Старинные строительные материалы – Immobiliare Europa'
+    },
+    zh: {
+      'lang-label': '语言：',
+      'nav-home': '首页',
+      'nav-products': '产品',
+      'nav-contacts': '联系方式',
+      'btn-categories': '☰ 分类',
+      'sidebar-title': '分类',
+      'cat-all': '全部',
+      'cat-pianelle': '地砖',
+      'cat-mattoni': '砖',
+      'cat-coppi': '屋瓦',
+      'cat-cementine': '水泥花砖',
+      'cat-graniglie': '水磨石',
+      'cat-lavorati': '加工构件',
+      'cat-finiture-scale': '楼梯饰面',
+
+      'lavorati-hero-kicker': '加工构件',
+      'lavorati-hero-title': '古陶土与石材加工构件',
+      'lavorati-hero-text': '利用回收的古老材料制作门槛、窗台、线脚、台阶及特殊构件，为修复与翻新项目增添高品质细节。',
+      'lavorati-hero-cta-browse': '查看可用构件',
+      'lavorati-hero-cta-availability': '咨询库存与照片',
+
+      'lavorati-section-title': '现有加工构件',
+      'lavorati-section-text': '原装手工加工的构件，可直接用于历史及高品质空间。',
+
+      'lavorati-card1-tag': '门槛与窗台',
+      'lavorati-card1-title': '陶土门槛与窗台',
+      'lavorati-card1-text': '由旧地砖和古砖加工而成的构件，非常适合为门窗收口，营造温暖而具质感的表面。',
+      'lavorati-card1-price': '价格面议',
+      'lavorati-card1-cta': '索取照片与尺寸',
+
+      'lavorati-card2-tag': '线脚与门窗框',
+      'lavorati-card2-title': '古石线脚与门窗框',
+      'lavorati-card2-text': '使用回收石材制作的门窗及壁龛线脚，可直接用于传统立面和室内空间。',
+      'lavorati-card2-price': '价格面议',
+      'lavorati-card2-cta': '咨询详情',
+
+      'lavorati-card3-tag': '特殊构件',
+      'lavorati-card3-title': '定制特殊构件',
+      'lavorati-card3-text': '可按需挑选用于柱头、坐凳、大尺寸门槛或装饰用途的特殊加工构件。',
+      'lavorati-card3-price': '按批次选配',
+      'lavorati-card3-cta': '与我们沟通',
+
+      'contacts-title': '联系方式',
+      'contacts-text': '请将尺寸和照片发给我们，我们会为您推荐最合适的材料。',
+      'contacts-email-label': '邮箱：',
+      'contacts-phone-label': '电话：',
+      'contacts-warehouse-label': '仓库：',
+      'contacts-warehouse-text': 'Contrada S. Pietro Vecchio 2 (FM) – 需提前预约',
+      'contacts-extra-text': '我们可提供在颜色和规格上尽量一致的整批材料，并可配送至意大利各地。确认订单前，可按需提供现货批次的详细照片。',
+      'footer-text': '© 2025 古建建筑材料 – Immobiliare Europa'
+    },
+    de_ch: {
+      'lang-label': 'Sprache:',
+      'nav-home': 'Startseite',
+      'nav-products': 'Materialien',
+      'nav-contacts': 'Kontakt',
+      'btn-categories': '☰ Kategorien',
+      'sidebar-title': 'Kategorien',
+      'cat-all': 'Alle',
+      'cat-pianelle': 'Bodenplatten',
+      'cat-mattoni': 'Ziegel',
+      'cat-coppi': 'Dachziegel',
+      'cat-cementine': 'Zementfliesen',
+      'cat-graniglie': 'Terrazzo',
+      'cat-lavorati': 'Bearbeitete Elemente',
+      'cat-finiture-scale': 'Treppenbeläge',
+
+      'lavorati-hero-kicker': 'Bearbeitete Elemente',
+      'lavorati-hero-title': 'Bearbeitete Teile aus antikem Terrakotta und Stein',
+      'lavorati-hero-text': 'Schwellen, Fensterbänke, Rahmen, Stufen und Spezialteile aus historischen Materialien – für hochwertige Details bei Restaurierungen und Umbauten.',
+      'lavorati-hero-cta-browse': 'Verfügbare Elemente ansehen',
+      'lavorati-hero-cta-availability': 'Verfügbarkeit und Fotos anfragen',
+
+      'lavorati-section-title': 'Verfügbare bearbeitete Elemente',
+      'lavorati-section-text': 'Originale, von Hand bearbeitete Teile, bereit für den Einbau in historische und hochwertige Objekte.',
+
+      'lavorati-card1-tag': 'Schwellen und Fensterbänke',
+      'lavorati-card1-title': 'Schwellen und Fensterbänke aus Terrakotta',
+      'lavorati-card1-text': 'Aus antiken Bodenplatten und Ziegeln gefertigte Elemente – ideal, um Türen und Fenster mit einer warmen, haptischen Oberfläche abzuschliessen.',
+      'lavorati-card1-price': 'Preise auf Anfrage',
+      'lavorati-card1-cta': 'Fotos und Masse anfordern',
+
+      'lavorati-card2-tag': 'Rahmen und Profile',
+      'lavorati-card2-title': 'Rahmen aus antikem Stein',
+      'lavorati-card2-text': 'Rahmen für Türen, Fenster und Nischen aus rückgewonnenem Stein, einsatzbereit für traditionelle Fassaden und Innenräume.',
+      'lavorati-card2-price': 'Preise auf Anfrage',
+      'lavorati-card2-cta': 'Infos anfragen',
+
+      'lavorati-card3-tag': 'Spezialteile',
+      'lavorati-card3-title': 'Spezialteile nach Mass',
+      'lavorati-card3-text': 'Auf Wunsch wählen wir besondere bearbeitete Stücke für Kapitelle, Sitzbänke, grossformatige Schwellen oder dekorative Elemente aus.',
+      'lavorati-card3-price': 'nach Auswahl',
+      'lavorati-card3-cta': 'Mit uns sprechen',
+
+      'contacts-title': 'Kontakt',
+      'contacts-text': 'Senden Sie uns Masse und Fotos – wir empfehlen Ihnen das passende Material.',
+      'contacts-email-label': 'E-Mail:',
+      'contacts-phone-label': 'Telefon:',
+      'contacts-warehouse-label': 'Lager:',
+      'contacts-warehouse-text': 'Contrada S. Pietro Vecchio 2 (FM) – nach Terminvereinbarung',
+      'contacts-extra-text': 'Wir liefern homogene Chargen in Farbe und Format, mit Versand in ganz Italien. Auf Wunsch senden wir Detailfotos der verfügbaren Chargen vor der Auftragsbestätigung.',
+      'footer-text': '© 2025 Antike Baumaterialien – Immobiliare Europa'
+    }
+  };
+
+  function setLanguage(lang) {
+    currentLang = lang;
+    document.documentElement.lang = (lang === 'de_ch') ? 'de-CH' : lang;
+
+    const dict = translations[lang] || translations['it'];
+    document.querySelectorAll('[data-i18n]').forEach((el) => {
+      const key = el.getAttribute('data-i18n');
+      if (dict[key]) {
+        el.textContent = dict[key];
+      }
+    });
+
+    if (dict['btn-categories']) {
+      menuToggle.textContent = dict['btn-categories'];
+      menuToggle.setAttribute('aria-label', dict['btn-categories']);
+    }
+  }
+
+  function openSidebar() {
+    sidebar.classList.add('open');
+    overlay.classList.add('show');
+    menuToggle.setAttribute('aria-expanded', 'true');
+  }
+
+  function closeSidebar() {
+    sidebar.classList.remove('open');
+    overlay.classList.remove('show');
+    menuToggle.setAttribute('aria-expanded', 'false');
+  }
+
+  menuToggle.onclick = () => {
+    const open = sidebar.classList.contains('open');
+    if (open) {
+      closeSidebar();
+    } else {
+      openSidebar();
+    }
+  };
+
+  overlay.onclick = () => {
+    closeSidebar();
+  };
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+      closeSidebar();
+    }
+  });
+
+  // Mantiene la lingua scelta nelle altre pagine
+  const savedLang = localStorage.getItem('site-lang') || 'it';
+  currentLang = savedLang;
+  langSelect.value = savedLang;
+  setLanguage(savedLang);
+
+  langSelect.addEventListener('change', (e) => {
+    const newLang = e.target.value;
+    localStorage.setItem('site-lang', newLang);
+    setLanguage(newLang);
+  });
+</script>
+
+</body>
+</html>

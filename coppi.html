@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coppi antichi - Materiali antichi per restauri autentici</title>
+  <meta name="description" content="Coppi antichi in terracotta di recupero, selezionati per restauri di pregio e coperture storiche di casali, borghi e ville d’epoca.">
+
+  <style>
+    /* ========== BASE ========== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f5f1eb;
+      color: #222;
+      line-height: 1.4;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ========== HEADER / TOPBAR ========== */
+    header {
+      width: 100%;
+      z-index: 50;
+      background: rgba(250,245,240,0.96);
+      border-bottom: 1px solid #e3d7c7;
+    }
+
+    .topbar-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 10px 16px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .topbar-row {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .logo-img {
+      height: 80px;
+      width: auto;
+    }
+
+    nav {
+      width: auto;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #3b3025;
+      font-size: 0.9rem;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .lang-switcher {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+    }
+
+    .lang-switcher label {
+      color: #6b5b4b;
+    }
+
+    .lang-switcher select {
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid #c9b9a5;
+      background: #fdf6ec;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    /* ========== SIDEBAR CATEGORIE ========== */
+    #menu-toggle {
+      position: fixed;
+      left: 16px;
+      bottom: 16px;
+      z-index: 60;
+      border-radius: 999px;
+      border: none;
+      background: #3b3025;
+      color: #fdf6ec;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+    }
+
+    #menu-toggle:focus-visible {
+      outline: 2px solid #f5b26b;
+      outline-offset: 2px;
+    }
+
+    #sidebar {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background: #fdf7f0;
+      border-right: 1px solid #e3d7c7;
+      overflow: hidden;
+      transition: width .3s ease, opacity .25s ease;
+      opacity: 0;
+      z-index: 100;
+      padding-top: 60px;
+    }
+
+    #sidebar.open {
+      width: 240px;
+      opacity: 1;
+    }
+
+    #sidebar h3 {
+      margin: 0 0 8px 18px;
+      font-size: 0.8rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #8b7a6b;
+    }
+
+    #sidebar a {
+      display: block;
+      padding: 10px 18px;
+      text-decoration: none;
+      color: #3b3025;
+      font-size: 0.9rem;
+    }
+
+    #sidebar a:hover {
+      background: #efe3d5;
+    }
+
+    #overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.25);
+      opacity: 0;
+      transition: opacity .3s ease;
+      z-index: 90;
+    }
+
+    #overlay.show {
+      display: block;
+      opacity: 1;
+    }
+
+    /* ========== HERO ========== */
+    .hero {
+      min-height: 55vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 16px 40px;
+      background-image: url('hero-materiali.jpg');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      color: #fff;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        120deg,
+        rgba(0,0,0,0.65),
+        rgba(0,0,0,0.35)
+      );
+    }
+
+    .hero-inner {
+      position: relative;
+      max-width: 900px;
+      text-align: left;
+    }
+
+    .hero-kicker {
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 0.75rem;
+      opacity: 0.9;
+      margin-bottom: 8px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.1rem, 3.5vw, 2.7rem);
+      line-height: 1.1;
+      margin-bottom: 14px;
+    }
+
+    .hero p {
+      max-width: 560px;
+      font-size: 1rem;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    /* ========== CONTENUTO ========== */
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 16px 60px;
+    }
+
+    .section-header {
+      margin-bottom: 22px;
+    }
+
+    .section-header h2 {
+      font-size: 1.6rem;
+      margin-bottom: 6px;
+    }
+
+    .section-header p {
+      font-size: 0.95rem;
+      color: #6b5b4b;
+    }
+
+    .prodotti-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 22px;
+    }
+
+    .prodotto {
+      border-radius: 14px;
+      background: #fff;
+      border: 1px solid #e4d7c9;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.04);
+    }
+
+    .prodotto-img-wrapper {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .prodotto img {
+      width: 100%;
+      height: auto;
+      transform: scale(1.02);
+      transition: transform .3s ease;
+    }
+
+    .prodotto:hover img {
+      transform: scale(1.06);
+    }
+
+    .tag-cat {
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      font-size: 0.75rem;
+    }
+
+    .prodotto-body {
+      padding: 14px 16px 12px;
+      flex: 1;
+    }
+
+    .prodotto-body h3 {
+      margin-bottom: 6px;
+      font-size: 1.05rem;
+    }
+
+    .prodotto-body p {
+      font-size: 0.9rem;
+      color: #5f4f40;
+    }
+
+    .prodotto-footer {
+      padding: 10px 16px 14px;
+      border-top: 1px solid #f0e4d7;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.9rem;
+    }
+
+    .price {
+      font-weight: 600;
+      color: #8b5a2b;
+    }
+
+    .link-scheda {
+      text-decoration: none;
+      color: #1f66d1;
+      font-weight: 500;
+    }
+
+    .link-scheda:hover {
+      text-decoration: underline;
+    }
+
+    /* ========== CONTATTI ========== */
+    .contatti {
+      margin-top: 60px;
+      border-radius: 18px;
+      padding: 24px 18px 26px;
+      background: #f1e4d6;
+      border: 1px solid #dfcfbe;
+    }
+
+    .contatti-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.4fr);
+      gap: 18px;
+      font-size: 0.95rem;
+    }
+
+    .contatti strong {
+      font-weight: 600;
+    }
+
+    /* ========== FOOTER ========== */
+    footer {
+      text-align: center;
+      padding: 20px 16px 30px;
+      font-size: 0.8rem;
+      color: #7a6a5b;
+    }
+
+    /* ========== MSG CARRELLO (se usato in futuro) ========== */
+    .msg-carrello {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      background: #1f66d1;
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: opacity .25s ease, transform .25s ease;
+      z-index: 200;
+    }
+
+    .msg-carrello.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 768px) {
+      .topbar-inner {
+        padding: 10px 16px 14px;
+      }
+
+      .topbar-row {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .hero {
+        text-align: left;
+        padding-top: 60px;
+      }
+
+      .hero p {
+        max-width: 100%;
+      }
+
+      .contatti-grid {
+        grid-template-columns: 1fr;
+      }
+
+      #menu-toggle {
+        font-size: 0.85rem;
+        padding: 8px 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="topbar-inner">
+    <div class="topbar-row">
+      <div class="logo-area">
+        <img src="logo-immobiliare-europa.png" alt="Logo Immobiliare Europa - Materiali da Costruzione Antichi" class="logo-img">
+      </div>
+
+      <nav aria-label="Navigazione principale">
+        <ul>
+          <li><a href="immobiliare-europa-multilingua.html#prodotti" data-i18n="nav-home">Home</a></li>
+          <li><a href="#prodotti" data-i18n="nav-products">Prodotti</a></li>
+          <li><a href="#contatti" data-i18n="nav-contacts">Contatti</a></li>
+        </ul>
+      </nav>
+
+      <div class="lang-switcher">
+        <label for="language-switcher" data-i18n="lang-label">Lingua:</label>
+        <select id="language-switcher">
+          <option value="it">IT</option>
+          <option value="en">EN</option>
+          <option value="ru">RU</option>
+          <option value="zh">中文</option>
+          <option value="de_ch">DE-CH</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</header>
+
+<button id="menu-toggle" aria-label="Apri menù categorie" aria-controls="sidebar" aria-expanded="false" data-i18n="btn-categories">
+  ☰ Categorie
+</button>
+
+<aside id="sidebar" aria-label="Categorie materiali">
+  <h3 data-i18n="sidebar-title">Categorie</h3>
+
+  <!-- Categorie in ordine alfabetico, senza "Tutte" -->
+  <a href="cementine.html" data-i18n="cat-cementine">Cementine</a>
+  <a href="coppi.html" data-i18n="cat-coppi">Coppi</a>
+  <a href="finiture-scale.html" data-i18n="cat-finiture-scale">Finiture per scale</a>
+  <a href="graniglie.html" data-i18n="cat-graniglie">Graniglie</a>
+  <a href="lavorati.html" data-i18n="cat-lavorati">Lavorati</a>
+  <a href="mattoni.html" data-i18n="cat-mattoni">Mattoni</a>
+  <a href="pianelle.html" data-i18n="cat-pianelle">Pianelle</a>
+</aside>
+
+<div id="overlay" aria-hidden="true"></div>
+
+<div id="msg-carrello" class="msg-carrello" role="status" aria-live="polite">
+  Prodotto aggiunto al carrello (demo)
+</div>
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-inner">
+    <div class="hero-kicker" data-i18n="hero-kicker">Recupero e selezione</div>
+    <h1 id="hero-title" data-i18n="cementine-hero-title">Coppi antichi in terracotta</h1>
+    <p data-i18n="cementine-hero-text">
+      Coppi in terracotta di recupero selezionati da casali, borghi e coperture storiche, ideali per tetti di pregio e restauri conservativi.
+    </p>
+  </div>
+</section>
+
+<main>
+  <section id="prodotti" aria-labelledby="prodotti-title">
+    <div class="section-header">
+      <h2 id="prodotti-title" data-i18n="cementine-section-title">Coppi antichi originali</h2>
+      <p data-i18n="cementine-section-text">
+        Ogni lotto viene selezionato per patina, colore, formato e omogeneità, per garantire una copertura armoniosa e coerente con l’architettura esistente.
+      </p>
+    </div>
+
+    <div class="prodotti-grid">
+      <article class="prodotto">
+        <div class="prodotto-img-wrapper">
+          <span class="tag-cat" data-i18n="tag-floors">Coperture</span>
+          <img src="https://via.placeholder.com/400x260?text=Coppi+Antichi" alt="Coppi antichi di recupero decorate">
+        </div>
+        <div class="prodotto-body">
+          <h3 data-i18n="cementine-card1-title">Coppi antichi di recupero</h3>
+          <p data-i18n="cementine-card1-text">
+            Coppi in terracotta recuperati da casali, monasteri e borghi storici. Ideali per coperture tradizionali, tetti a vista e interventi su edifici vincolati.
+          </p>
+        </div>
+        <div class="prodotto-footer">
+          <span class="price" data-i18n="cementine-card1-price">€2 – €3 / cad</span>
+          <a href="#contatti" class="link-scheda" data-i18n="cementine-card-cta">Richiedi disponibilità</a>
+        </div>
+      </article>
+
+      <article class="prodotto">
+        <div class="prodotto-img-wrapper">
+          <span class="tag-cat" data-i18n="tag-floors">Coperture</span>
+          <img src="https://via.placeholder.com/400x260?text=Coppi+Speciali" alt="Coppi di colmo e pezzi speciali in terracotta">
+        </div>
+        <div class="prodotto-body">
+          <h3 data-i18n="cementine-card2-title">Coppi di colmo e pezzi speciali</h3>
+          <p data-i18n="cementine-card2-text">
+            Elementi di colmo, testate e pezzi speciali coordinati ai coppi di campo, per completare tetti storici e restauri di pregio.
+          </p>
+        </div>
+        <div class="prodotto-footer">
+          <span class="price" data-i18n="cementine-card2-price">€3 – €6 / cad</span>
+          <a href="#contatti" class="link-scheda" data-i18n="cementine-card-cta">Richiedi disponibilità</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="contatti" class="contatti" aria-labelledby="contatti-title">
+    <div class="section-header">
+      <h2 id="contatti-title" data-i18n="contacts-title">Contatti</h2>
+      <p data-i18n="contacts-text">
+        Inviaci misure del tetto, foto della copertura e qualche riferimento sul progetto: ti proporremo i coppi più adatti.
+      </p>
+    </div>
+    <div class="contatti-grid">
+      <div>
+        <p><strong data-i18n="contacts-email-label">Email:</strong> <a href="mailto:info@materialiantichi.it">info@materialiantichi.it</a></p>
+        <p><strong data-i18n="contacts-phone-label">Telefono:</strong> <a href="tel:+393493002099">+39 349 300 2099</a></p>
+        <p>
+          <strong data-i18n="contacts-warehouse-label">Magazzino:</strong>
+          <span data-i18n="contacts-warehouse-text">Contrada S. Pietro Vecchio 2 (FM) – su appuntamento</span>
+        </p>
+      </div>
+      <div>
+        <p data-i18n="contacts-extra-text">
+          Possiamo fornire lotti omogenei per colore e formato, con spedizione in tutta Italia.
+          Su richiesta inviamo foto dettagliate dei lotti disponibili prima della conferma dell’ordine.
+        </p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p data-i18n="footer-text">© 2025 Materiali da Costruzione Antichi – Immobiliare Europa</p>
+</footer>
+
+<script>
+  const sidebar     = document.getElementById('sidebar');
+  const overlay     = document.getElementById('overlay');
+  const msgCarrello = document.getElementById('msg-carrello');
+  const menuToggle  = document.getElementById('menu-toggle');
+  const langSelect  = document.getElementById('language-switcher');
+
+  let currentLang = 'it';
+
+  const translations = {
+    it: {
+      'lang-label': 'Lingua:',
+      'nav-home': 'Home',
+      'nav-products': 'Prodotti',
+      'nav-contacts': 'Contatti',
+      'btn-categories': '☰ Categorie',
+      'sidebar-title': 'Categorie',
+      'cat-all': 'Tutte',
+      'cat-pianelle': 'Pianelle',
+      'cat-mattoni': 'Mattoni',
+      'cat-coppi': 'Coppi',
+      'cat-cementine': 'Cementine',
+      'cat-graniglie': 'Graniglie',
+      'cat-lavorati': 'Lavorati',
+      'cat-finiture-scale': 'Finiture per scale',
+      'hero-kicker': 'Recupero e selezione',
+      'cementine-hero-title': 'Coppi antichi in terracotta',
+      'cementine-hero-text': 'Coppi in terracotta di recupero selezionati da casali, borghi e coperture storiche, ideali per tetti di pregio e restauri conservativi.',
+      'cementine-section-title': 'Coppi antichi originali',
+      'cementine-section-text': 'Ogni lotto viene selezionato per patina, colore, formato e omogeneità, per garantire una copertura armoniosa e coerente con l’architettura esistente.',
+      'tag-floors': 'Coperture',
+      'cementine-card1-title': 'Coppi antichi di recupero',
+      'cementine-card1-text': 'Coppi in terracotta recuperati da casali, monasteri e borghi storici. Ideali per coperture tradizionali, tetti a vista e interventi su edifici vincolati.',
+      'cementine-card1-price': '€2 – €3 / cad',
+      'cementine-card2-title': 'Coppi di colmo e pezzi speciali',
+      'cementine-card2-text': 'Elementi di colmo, testate e pezzi speciali coordinati ai coppi di campo, per completare tetti storici e restauri di pregio.',
+      'cementine-card2-price': '€3 – €6 / cad',
+      'cementine-card-cta': 'Richiedi disponibilità',
+      'contacts-title': 'Contatti',
+      'contacts-text': 'Inviaci misure del tetto, foto della copertura e qualche riferimento sul progetto: ti proporremo i coppi più adatti.',
+      'contacts-email-label': 'Email:',
+      'contacts-phone-label': 'Telefono:',
+      'contacts-warehouse-label': 'Magazzino:',
+      'contacts-warehouse-text': 'Contrada S. Pietro Vecchio 2 (FM) – su appuntamento',
+      'contacts-extra-text': 'Possiamo fornire lotti omogenei per colore e formato, con spedizione in tutta Italia. Su richiesta inviamo foto dettagliate dei lotti disponibili prima della conferma dell’ordine.',
+      'footer-text': '© 2025 Materiali da Costruzione Antichi – Immobiliare Europa',
+      'cart-message': '{product} aggiunto al carrello (demo)'
+    },
+    en: {
+      'lang-label': 'Language:',
+      'nav-home': 'Home',
+      'nav-products': 'Products',
+      'nav-contacts': 'Contacts',
+      'btn-categories': '☰ Categories',
+      'sidebar-title': 'Categories',
+      'cat-all': 'All',
+      'cat-pianelle': 'Floor tiles',
+      'cat-mattoni': 'Bricks',
+      'cat-coppi': 'Roof tiles',
+      'cat-cementine': 'Cement tiles',
+      'cat-graniglie': 'Terrazzo tiles',
+      'cat-lavorati': 'Worked elements',
+      'cat-finiture-scale': 'Stair finishes',
+      'hero-kicker': 'Salvaged & selected',
+      'cementine-hero-title': 'Original antique roof tiles',
+      'cementine-hero-text': 'Reclaimed terracotta roof tiles salvaged from farmhouses and historic roofs, ideal for quality roofing and conservation projects.',
+      'cementine-section-title': 'Antique terracotta roof tiles',
+      'cementine-section-text': 'Each batch is selected for patina, colour, size and consistency, ensuring a harmonious result in line with the existing architecture.',
+      'tag-floors': 'Roofs',
+      'cementine-card1-title': 'Reclaimed antique roof tiles',
+      'cementine-card1-text': 'Terracotta roof tiles reclaimed from farmhouses, monasteries and historic villages. Ideal for traditional roofs, exposed structures and listed buildings.',
+      'cementine-card1-price': '€2 – €3 / pc',
+      'cementine-card2-title': 'Ridge tiles and special pieces',
+      'cementine-card2-text': 'Matching ridge tiles, end pieces and special elements to complete historic roofs and high-end restorations.',
+      'cementine-card2-price': '€3 – €6 / pc',
+      'cementine-card-cta': 'Request availability',
+      'contacts-title': 'Contacts',
+      'contacts-text': 'Send us roof measurements, photos of the existing covering and a few project details: we will suggest the most suitable roof tiles.',
+      'contacts-email-label': 'Email:',
+      'contacts-phone-label': 'Phone:',
+      'contacts-warehouse-label': 'Warehouse:',
+      'contacts-warehouse-text': 'Contrada S. Pietro Vecchio 2 (FM) – by appointment only',
+      'contacts-extra-text': 'We can supply homogeneous batches in colour and size, with shipping throughout Italy. On request we send detailed photos of the available batches before confirming the order.',
+      'footer-text': '© 2025 Antique Building Materials – Immobiliare Europa',
+      'cart-message': '{product} added to cart (demo)'
+    },
+    ru: {
+      'lang-label': 'Язык:',
+      'nav-home': 'Главная',
+      'nav-products': 'Материалы',
+      'nav-contacts': 'Контакты',
+      'btn-categories': '☰ Категории',
+      'sidebar-title': 'Категории',
+      'cat-all': 'Все',
+      'cat-pianelle': 'Плитка',
+      'cat-mattoni': 'Кирпич',
+      'cat-coppi': 'Черепица',
+      'cat-cementine': 'Цементные плитки',
+      'cat-graniglie': 'Гранитные плиты',
+      'cat-lavorati': 'Обработанные элементы',
+      'cat-finiture-scale': 'Отделка лестниц',
+      'hero-kicker': 'Отбор и восстановление',
+      'cementine-hero-title': 'Старинная черепица из терракоты',
+      'cementine-hero-text': 'Старинная терракотовая черепица, снятая с ферм, монастырей и исторических крыш — идеальна для кровель высокого класса и реставрации зданий.',
+      'cementine-section-title': 'Старинная терракотовая черепица',
+      'cementine-section-text': 'Каждая партия отбирается по патине, цвету, формату и однородности, чтобы обеспечить гармоничную кровлю в соответствии с архитектурой здания.',
+      'tag-floors': 'Кровля',
+      'cementine-card1-title': 'Старинная черепица б/у',
+      'cementine-card1-text': 'Терракотовая черепица, снятая с усадеб, монастырей и исторических поселков. Подходит для традиционных крыш, открытых конструкций и зданий под охраной.',
+      'cementine-card1-price': '€2 – €3 / шт',
+      'cementine-card2-title': 'Коньковая черепица и доборные элементы',
+      'cementine-card2-text': 'Коньковые элементы, торцевые детали и специальные формы, подобранные к основной черепице, для завершения исторических кровель и престижных объектов.',
+      'cementine-card2-price': '€3 – €6 / шт',
+      'cementine-card-cta': 'Уточнить наличие',
+      'contacts-title': 'Контакты',
+      'contacts-text': 'Пришлите нам размеры кровли, фотографии существующей черепицы и несколько слов о проекте — мы подберём наиболее подходящую старинную черепицу.',
+      'contacts-email-label': 'Email:',
+      'contacts-phone-label': 'Телефон:',
+      'contacts-warehouse-label': 'Склад:',
+      'contacts-warehouse-text': 'Contrada S. Pietro Vecchio 2 (FM) – по предварительной записи',
+      'contacts-extra-text': 'Мы поставляем однородные партии по цвету и формату с доставкой по всей Италии. По запросу высылаем подробные фотографии доступных партий до подтверждения заказа.',
+      'footer-text': '© 2025 Старинные строительные материалы – Immobiliare Europa',
+      'cart-message': '{product} добавлен в корзину (демо)'
+    },
+    zh: {
+      'lang-label': '语言：',
+      'nav-home': '首页',
+      'nav-products': '产品',
+      'nav-contacts': '联系方式',
+      'btn-categories': '☰ 分类',
+      'sidebar-title': '分类',
+      'cat-all': '全部',
+      'cat-pianelle': '地砖',
+      'cat-mattoni': '砖',
+      'cat-coppi': '屋瓦',
+      'cat-cementine': '水泥花砖',
+      'cat-graniglie': '水磨石',
+      'cat-lavorati': '加工构件',
+      'cat-finiture-scale': '楼梯饰面',
+      'hero-kicker': '回收与精选',
+      'cementine-hero-title': '古董陶土屋瓦',
+      'cementine-hero-text': '从乡村农舍和历史建筑屋面中回收的古董陶土屋瓦，适合用于高品质屋顶和文物修复工程。',
+      'cementine-section-title': '古董陶土屋瓦',
+      'cementine-section-text': '每一批屋瓦都根据包浆、颜色、尺寸和均匀度精心挑选，以保证与现有建筑风格和谐统一。',
+      'tag-floors': '屋顶',
+      'cementine-card1-title': '回收古董屋瓦',
+      'cementine-card1-text': '回收自乡村农舍、修道院和历史村镇屋面的陶土屋瓦，适用于传统屋顶、外露结构及受保护建筑。',
+      'cementine-card1-price': '€2 – €3 / 片',
+      'cementine-card2-title': '屋脊瓦与特殊配件',
+      'cementine-card2-text': '与主瓦颜色协调的屋脊瓦、封头瓦及特殊构件，可用于完整修复历史屋面与高端项目。',
+      'cementine-card2-price': '€3 – €6 / 片',
+      'cementine-card-cta': '咨询库存',
+      'contacts-title': '联系方式',
+      'contacts-text': '请将屋顶尺寸、现有屋面的照片以及项目信息发给我们，我们会为您推荐最合适的古董屋瓦。',
+      'contacts-email-label': '邮箱：',
+      'contacts-phone-label': '电话：',
+      'contacts-warehouse-label': '仓库：',
+      'contacts-warehouse-text': 'Contrada S. Pietro Vecchio 2 (FM) – 需提前预约',
+      'contacts-extra-text': '我们可提供在颜色和规格上尽量一致的整批材料，并可配送至意大利各地。确认订单前，可按需提供现货批次的详细照片。',
+      'footer-text': '© 2025 古建建筑材料 – Immobiliare Europa',
+      'cart-message': '已将 {product} 加入购物车（演示）'
+    },
+    de_ch: {
+      'lang-label': 'Sprache:',
+      'nav-home': 'Startseite',
+      'nav-products': 'Materialien',
+      'nav-contacts': 'Kontakt',
+      'btn-categories': '☰ Kategorien',
+      'sidebar-title': 'Kategorien',
+      'cat-all': 'Alle',
+      'cat-pianelle': 'Bodenplatten',
+      'cat-mattoni': 'Ziegel',
+      'cat-coppi': 'Dachziegel',
+      'cat-cementine': 'Zementfliesen',
+      'cat-graniglie': 'Terrazzofliesen',
+      'cat-lavorati': 'Bearbeitete Elemente',
+      'cat-finiture-scale': 'Treppenbeläge',
+      'hero-kicker': 'Rückgewinnung & Auswahl',
+      'cementine-hero-title': 'Antike Dachziegel aus Terrakotta',
+      'cementine-hero-text': 'Antike Terrakotta-Dachziegel aus Bauernhäusern und historischen Dächern – ideal für hochwertige Dächer und denkmalgerechte Restaurierungen.',
+      'cementine-section-title': 'Antike Terrakotta-Dachziegel',
+      'cementine-section-text': 'Jede Charge wird nach Patina, Farbe, Format und Homogenität ausgewählt, um ein harmonisches Dachbild im Einklang mit der bestehenden Architektur zu gewährleisten.',
+      'tag-floors': 'Dächer',
+      'cementine-card1-title': 'Antike Dachziegel aus Rückbau',
+      'cementine-card1-text': 'Terrakotta-Dachziegel aus dem Rückbau von Bauernhäusern, Klöstern und historischen Dörfern. Ideal für traditionelle Dächer, sichtbare Konstruktionen und denkmalgeschützte Gebäude.',
+      'cementine-card1-price': '€2 – €3 / Stk.',
+      'cementine-card2-title': 'Firstziegel und Spezialteile',
+      'cementine-card2-text': 'Firstziegel, Endstücke und Spezialteile, passend zu den Hauptziegeln, um historische Dächer und hochwertige Projekte zu vervollständigen.',
+      'cementine-card2-price': '€3 – €6 / Stk.',
+      'cementine-card-cta': 'Verfügbarkeit anfragen',
+      'contacts-title': 'Kontakt',
+      'contacts-text': 'Senden Sie uns Masse des Dachs, Fotos der bestehenden Eindeckung und einige Projektdetails – wir empfehlen Ihnen die passenden Dachziegel.',
+      'contacts-email-label': 'E-Mail:',
+      'contacts-phone-label': 'Telefon:',
+      'contacts-warehouse-label': 'Lager:',
+      'contacts-warehouse-text': 'Contrada S. Pietro Vecchio 2 (FM) – nach Terminvereinbarung',
+      'contacts-extra-text': 'Wir liefern homogene Chargen in Farbe und Format, mit Versand in ganz Italien. Auf Wunsch senden wir Detailfotos der verfügbaren Chargen vor der Auftragsbestätigung.',
+      'footer-text': '© 2025 Antike Baumaterialien – Immobiliare Europa',
+      'cart-message': '{product} zum Warenkorb hinzugefügt (Demo)'
+    }
+  };
+
+  function setLanguage(lang) {
+    currentLang = lang;
+    document.documentElement.lang = (lang === 'de_ch') ? 'de-CH' : lang;
+
+    const dict = translations[lang] || translations['it'];
+    document.querySelectorAll('[data-i18n]').forEach((el) => {
+      const key = el.getAttribute('data-i18n');
+      if (dict[key]) {
+        el.textContent = dict[key];
+      }
+    });
+
+    if (dict['btn-categories']) {
+      menuToggle.textContent = dict['btn-categories'];
+      menuToggle.setAttribute('aria-label', dict['btn-categories']);
+    }
+  }
+
+  function openSidebar() {
+    sidebar.classList.add('open');
+    overlay.classList.add('show');
+    menuToggle.setAttribute('aria-expanded', 'true');
+  }
+
+  function closeSidebar() {
+    sidebar.classList.remove('open');
+    overlay.classList.remove('show');
+    menuToggle.setAttribute('aria-expanded', 'false');
+  }
+
+  menuToggle.onclick = () => {
+    const open = sidebar.classList.contains('open');
+    if (open) {
+      closeSidebar();
+    } else {
+      openSidebar();
+    }
+  };
+
+  overlay.onclick = () => {
+    closeSidebar();
+  };
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+      closeSidebar();
+    }
+  });
+
+  // Imposta la lingua salvata nel browser (se presente)
+  const savedLang = localStorage.getItem('site-lang') || 'it';
+  currentLang = savedLang;
+  langSelect.value = savedLang;
+  setLanguage(savedLang);
+
+  // Cambio lingua
+  langSelect.addEventListener('change', (e) => {
+    const newLang = e.target.value;
+    localStorage.setItem('site-lang', newLang);
+    setLanguage(newLang);
+  });
+
+  function add(nome, prezzo, id) {
+    const dict = translations[currentLang] || translations['it'];
+    const template = dict['cart-message'] || translations['it']['cart-message'];
+    const msg = template.replace('{product}', nome);
+    if (!msgCarrello) return;
+    msgCarrello.textContent = msg;
+    msgCarrello.classList.add('show');
+    setTimeout(() => msgCarrello.classList.remove('show'), 1500);
+  }
+</script>
+
+</body>
+</html>
